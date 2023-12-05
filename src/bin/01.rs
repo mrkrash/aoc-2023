@@ -12,8 +12,63 @@ pub fn part_one(input: &str) -> Option<u32> {
     }))
 }
 
-pub fn part_two(input: &str) -> Option<u32> {
+const NUMBERS: [&str; 9] = [
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+];
+
+fn parse_digit_end(str: &str) -> Option<u32> {
+    for (i, n) in NUMBERS.iter().enumerate() {
+        if str.ends_with(n) {
+            return Some(i as u32 + 1);
+        }
+    }
     None
+}
+
+fn parse_digit_start(str: &str) -> Option<u32> {
+    for (i, n) in NUMBERS.iter().enumerate() {
+        if str.starts_with(n) {
+            return Some(i as u32 + 1);
+        }
+    }
+    None
+}
+
+pub fn part_two(input: &str) -> Option<u32> {
+    Some(input.lines().fold(0, |acc, x| {
+        let mut first = 0;
+        let mut last = 0;
+
+        let mut xx = x.chars();
+        loop {
+            if let Some(o) = parse_digit_start(xx.as_str()) {
+                first = o;
+                break;
+            }
+            if let Some(o) = xx.next() {
+                if o.is_ascii_digit() {
+                    first = o.to_digit(10).unwrap();
+                    break;
+                }
+            } else { break; }
+        }
+
+        let mut xx = x.chars();
+        loop {
+            if let Some(o) = parse_digit_end(xx.as_str()) {
+                last = o;
+                break;
+            }
+            if let Some(o) = xx.next_back() {
+                if o.is_ascii_digit() {
+                    last = o.to_digit(10).unwrap();
+                    break;
+                }
+            } else { break; }
+        }
+
+        first * 10 + last + acc
+    }))
 }
 
 #[cfg(test)]
@@ -28,7 +83,7 @@ mod tests {
 
     #[test]
     fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
+        let result = part_two(&advent_of_code::template::read_file("inputs", DAY));
+        assert_eq!(result, Some(54094));
     }
 }
