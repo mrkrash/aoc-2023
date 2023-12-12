@@ -5,7 +5,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     let green = 13;
     let blue = 14;
     Some(input.lines().fold(0, |acc: u32, line: &str|{
-        let game = line.split(':').collect::<Vec<&str>>()[0].split(' ').last().unwrap().parse::<u32>().unwrap();
+        let _game = line.split(':').collect::<Vec<&str>>()[0].split(' ').last().unwrap().parse::<u32>().unwrap();
         let subsets = line.split(':').collect::<Vec<&str>>()[1].split(';').collect::<Vec<&str>>();
 
         let mut _subsets = subsets.iter();
@@ -36,7 +36,7 @@ pub fn part_one(input: &str) -> Option<u32> {
         };
 
         if valid {
-            return acc + game;
+            return acc + _game;
         }
 
         acc
@@ -45,7 +45,6 @@ pub fn part_one(input: &str) -> Option<u32> {
 
 pub fn part_two(input: &str) -> Option<u32> {
     Some(input.lines().fold(0, |acc: u32, line: &str|{
-        let game = line.split(':').collect::<Vec<&str>>()[0].split(' ').last().unwrap().parse::<u32>().unwrap();
         let subsets = line.split(':').collect::<Vec<&str>>()[1].split(';').collect::<Vec<&str>>();
 
         let mut _subsets = subsets.iter();
