@@ -1,7 +1,7 @@
 advent_of_code::solution!(5);
 
 pub fn part_one(input: &str) -> Option<u64> {
-    let mut seeds = resolve_map(parse_seed_one(input), input);
+    let seeds = resolve_map(parse_seed_one(input), input);
     Some(*seeds.iter().min().unwrap())
 }
 
@@ -54,29 +54,54 @@ fn parse_seed_one(input: &str) -> Vec<u64> {
 pub fn part_two(input: &str) -> Option<u64> {
     let mut seeds = parse_seed_two(input);
     let map_relocation = remap(input);
-    let mut relocated: Vec<u64> = Vec::new();
-    for seed in &mut seeds {
-        relocated.push(binary_search(seed.start, seed.end, &map_relocation));
+    for maps in map_relocation {
+        let mut new_seeds:Vec<Seeds> = Vec::new();
+        for relocation in maps {
+            for seed_range in &mut seeds {
+                if relocation.end >= seed_range.start && relocation.end < seed_range.end { // Right
+                    new_seeds.push(Seeds {start: relocation.end +1, end: seed_range.end, relocated: false});
+                    *seed_range = Seeds {start: seed_range.start, end: relocation.end, relocated:false};
+                }
+                if relocation.from > seed_range.start && relocation.from <= seed_range.end { // Left
+                    new_seeds.push(Seeds {start: seed_range.start, end: relocation.from -1, relocated: false});
+                    *seed_range = Seeds {start: relocation.from, end: seed_range.end, relocated: false};
+                }
+                if seed_range.start >= relocation.from && seed_range.end <= relocation.end && !seed_range.relocated {
+                    let start = seed_range.start - relocation.from + relocation.dest;
+                    let end = seed_range.end - relocation.from + relocation.dest;
+
+                    *seed_range = Seeds {start, end, relocated: true};
+                }
+            }
+        }
+        for seed in &mut seeds {
+            *seed = Seeds {start: seed.start, end: seed.end, relocated: false};
+        }
+        seeds = [seeds, new_seeds].concat();
     }
 
-    Some(*relocated.iter().min().unwrap())
+    seeds.sort_by(|a, b| a.start.cmp(&b.start));
+
+    Some(seeds.first().unwrap().start)
 }
 
 struct Relocation {
-    src: u64,
-    dest: u64,
-    range: u64
+    from: u64,
+    end: u64,
+    dest: u64
 }
+#[derive(Clone)]
 struct Seeds {
     start: u64,
-    end: u64
+    end: u64,
+    relocated: bool
 }
 
 fn parse_seed_two(input: &str) -> Vec<Seeds> {
     parse_seed_one(input)
         .chunks_exact(2)
         .into_iter()
-        .map(|x| Seeds{start: x[0], end: x[0] + x[1] - 1})
+        .map(|x| Seeds{start: x[0], end: x[0] + x[1] -1, relocated: false})
         .collect()
 }
 
@@ -95,44 +120,13 @@ fn remap(input: &str) -> Vec<Vec<Relocation>> {
                     })
                     .collect::<Vec<_>>();
                 Relocation {
-                    src: _line[1],
+                    from: _line[1],
                     dest: _line[0],
-                    range: _line[2]
+                    end: _line[1] + _line[2] -1
                 }
             })
             .collect::<Vec<Relocation>>()
     }).collect()
-}
-
-fn binary_search(start: u64, end: u64, map: &Vec<Vec<Relocation>>) -> u64 {
-    let mut high = end;
-    let mut low = start;
-    let mut location = low;
-
-    while low <= high {
-        let mid = low + (high - low) /2;
-        let location_seed = relocate(mid, &map);
-        if location_seed < location {
-            location = location_seed;
-            high = mid - 1;
-        } else {
-            low = mid + 1;
-        }
-    }
-    location
-}
-fn relocate(seed: u64, map: &Vec<Vec<Relocation>>) -> u64 {
-    let mut relocation = seed;
-    for _step in map {
-        for _map in _step {
-            if relocation >= _map.src && relocation < (_map.src + _map.range) {
-                relocation = _map.dest + relocation - _map.src;
-                break
-            }
-        }
-
-    }
-    relocation
 }
 
 #[cfg(test)]
@@ -148,6 +142,6 @@ mod tests {
     #[test]
     fn test_part_two() {
         let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, Some(46));
+        assert_eq!(result, Some(26829166));
     }
 }
