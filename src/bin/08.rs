@@ -1,22 +1,19 @@
 use std::collections::HashMap;
+use num::integer::lcm;
 advent_of_code::solution!(8);
 
 pub fn part_one(input: &str) -> Option<u32> {
     let (directions, nodes) = generator(input);
+    Some(steps("AAA", &directions, &nodes))
+}
 
-    let mut step = 1;
-    let mut it = directions.iter().cycle();
-    let mut dest = nodes.get(&"AAA").unwrap();
-    while let Some(i) = it.next() {
-        let next = if i == &0 { dest.0 } else { dest.1 };
-        let (est, pest) = nodes.get_key_value(next).unwrap();
-        if est == &"ZZZ" {
-            break
-        }
-        dest = pest;
-        step += 1;
-    }
-    Some(step)
+pub fn part_two(input: &str) -> Option<u64> {
+    let (directions, nodes) = generator(input);
+    Some(nodes
+        .iter()
+        .filter(|(k,_)| k.substring(2, 1) == "A")
+        .map(|(k, _)| steps(k, &directions, &nodes))
+        .fold(1, |acc, steps| lcm(acc, steps as u64)))
 }
 
 fn generator(input: &str) -> (Vec<u8>, HashMap<&str, (&str,&str)>) {
@@ -30,6 +27,21 @@ fn generator(input: &str) -> (Vec<u8>, HashMap<&str, (&str,&str)>) {
         directions.chars().into_iter().map(|c| if c == 'L' { 0 } else { 1 }).collect::<Vec<u8>>(),
         nodes
     )
+}
+fn steps(start: &str, directions: &Vec<u8>, nodes: &HashMap<&str, (&str,&str)>) -> u32 {
+    let mut step = 1;
+    let mut it = directions.iter().cycle();
+    let mut dest = nodes.get(&start).unwrap();
+    while let Some(i) = it.next() {
+        let next = if i == &0 { dest.0 } else { dest.1 };
+        let (est, pest) = nodes.get_key_value(next).unwrap();
+        if est == &"ZZZ" && start == "AAA" || start != "AAA" && est.substring(2,1) == "Z" {
+            break
+        }
+        dest = pest;
+        step += 1;
+    }
+    step
 }
 trait StringUtils {
     fn substring(&self, start: usize, len: usize) -> &str;
@@ -59,10 +71,6 @@ impl StringUtils for str {
     }
 }
 
-pub fn part_two(input: &str) -> Option<u32> {
-    None
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -75,7 +83,7 @@ mod tests {
 
     #[test]
     fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file("examples", DAY));
+        let result = part_two(&advent_of_code::template::read_file("inputs", DAY));
         assert_eq!(result, None);
     }
 }
