@@ -1,7 +1,7 @@
 advent_of_code::solution!(1);
 
 pub fn part_one(input: &str) -> Option<u32> {
-    Some(input.lines().fold(0, |acc, x| {
+    Some(input.split_once("\n\n").unwrap().0.lines().fold(0, |acc, x| {
         let numbers = x.split("").filter(|y| !y.is_empty() && y.parse::<u32>().is_ok()).collect::<Vec<&str>>();
         if numbers.iter().count() > 2 {
             return (numbers[0].to_owned() + numbers.last().unwrap()).parse::<u32>().unwrap() + acc;
@@ -35,7 +35,7 @@ fn parse_digit_start(str: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    Some(input.lines().fold(0, |acc, x| {
+    Some(input.split_once("\n\n").unwrap().1.lines().fold(0, |acc, x| {
         let mut first = 0;
         let mut last = 0;
 
