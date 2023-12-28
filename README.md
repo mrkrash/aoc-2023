@@ -30,13 +30,13 @@ This template supports all major OS (macOS, Linux, Windows).
 1.  Open [the template repository](https://github.com/fspoettel/advent-of-code-rust) on Github.
 2.  Click [Use this template](https://github.com/fspoettel/advent-of-code-rust/generate) and create your repository.
 3.  Clone your repository to your computer.
-4.  If you are solving a previous year's advent of code, change the `AOC_YEAR` variable in `.cargo/config.toml` to reflect the year you are solving.
+4.  If you are solving _a previous year's advent of code, change the `AOC_YEAR` variable in `.cargo/config.toml` to reflect the year you are solving.
 
 ### Setup rust 💻
 
 1.  Install the [Rust toolchain](https://www.rust-lang.org/tools/install).
 2.  (recommended) Install the [rust-analyzer](https://rust-analyzer.github.io/manual.html) extension for your code editor.
-3.  (optional) Install a native debugger. If you are using VS Code, [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) is a good option.
+3.  (optional) Install _a native debugger. If you are using VS Code, [CodeLLDB](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb) is _a good option.
 
 ---
 
@@ -44,7 +44,7 @@ This template supports all major OS (macOS, Linux, Windows).
 
 ## Usage
 
-### Scaffold a day
+### Scaffold _a day
 
 ```sh
 # example: `cargo scaffold 1`
@@ -63,12 +63,12 @@ Individual solutions live in the `./src/bin/` directory as separate binaries. _I
 Every [solution](https://github.com/fspoettel/advent-of-code-rust/blob/main/src/template/commands/scaffold.rs#L9-L35) has _tests_ referencing its _example_ file in `./data/examples`. Use these tests to develop and debug your solutions against the example input.
 
 > [!TIP]
-> If a day has different example inputs for both parts, you can use the `read_file_part()` helper in your tests instead of `read_file()`. For example, if this applies to day 1, you can create a second example file `01-2.txt` and invoke the helper like `let result = part_two(&advent_of_code::template::read_file_part("examples", DAY, 2));` to read it in `test_part_two`.
+> If _a day has different example inputs for both parts, you can use the `read_file_part()` helper in your tests instead of `read_file()`. For example, if this applies to day 1, you can create _a second example file `01-2.txt` and invoke the helper like `let result = part_two(&advent_of_code::template::read_file_part("examples", DAY, 2));` to read it in `test_part_two`.
 
 > [!TIP]
-> when editing a solution, `rust-analyzer` will display buttons for running / debugging unit tests above the unit test blocks.
+> when editing _a solution, `rust-analyzer` will display buttons for running / debugging unit tests above the unit test blocks.
 
-### Download input & description for a day
+### Download input & description for _a day
 
 > [!IMPORTANT] 
 > This command requires [installing the aoc-cli crate](#configure-aoc-cli-integration).
@@ -86,7 +86,7 @@ cargo download <day>
 # 🎄 Successfully wrote puzzle to "data/puzzles/01.md".
 ```
 
-### Run solutions for a day
+### Run solutions for _a day
 
 ```sh
 # example: `cargo solve 01`
@@ -103,14 +103,14 @@ The `solve` command runs your solution against real puzzle inputs. To run an opt
 
 By default, `solve` executes your code once and shows the execution time. If you append the `--time` flag to the command, the runner will run your code between `10` and `10.000` times (depending on execution time of first execution) and print the average execution time.
 
-For example, running a benchmarked, optimized execution of day 1 would look like `cargo solve 1 --release --time`. Displayed _timings_ show the raw execution time of your solution without overhead like file reads.
+For example, running _a benchmarked, optimized execution of day 1 would look like `cargo solve 1 --release --time`. Displayed _timings_ show the raw execution time of your solution without overhead like file reads.
 
 #### Submitting solutions
 
 > [!IMPORTANT]
 > This command requires [installing the aoc-cli crate](#configure-aoc-cli-integration).
 
-In order to submit part of a solution for checking, append the `--submit <part>` option to the `solve` command.
+In order to submit part of _a solution for checking, append the `--submit <part>` option to the `solve` command.
 
 ### Run all solutions
 
@@ -132,9 +132,9 @@ This runs all solutions sequentially and prints output to the command-line. Same
 
 #### Update readme benchmarks
 
-The template can output a table with solution times to your readme. In order to generate a benchmarking table, run `cargo all --release --time`. If everything goes well, the command will output "_Successfully updated README with benchmarks._" after the execution finishes and the readme will be updated.
+The template can output _a table with solution times to your readme. In order to generate _a benchmarking table, run `cargo all --release --time`. If everything goes well, the command will output "_Successfully updated README with benchmarks._" after the execution finishes and the readme will be updated.
 
-Please note that these are not "scientific" benchmarks, understand them as a fun approximation. 😉 Timings, especially in the microseconds range, might change a bit between invocations.
+Please note that these are not "scientific" benchmarks, understand them as _a fun approximation. 😉 Timings, especially in the microseconds range, might change _a bit between invocations.
 
 ### Run all tests
 
@@ -142,7 +142,7 @@ Please note that these are not "scientific" benchmarks, understand them as a fun
 cargo test
 ```
 
-To run tests for a specific day, append `--bin <day>`, e.g. `cargo test --bin 01`. You can further scope it down to a specific part, e.g. `cargo test --bin 01 part_one`.
+To run tests for _a specific day, append `--bin <day>`, e.g. `cargo test --bin 01`. You can further scope it down to _a specific part, e.g. `cargo test --bin 01 part_one`.
 
 ### Format code
 
@@ -178,17 +178,17 @@ cargo read <day>
 1. Install [`aoc-cli`](https://github.com/scarvalhojr/aoc-cli/) via cargo: `cargo install aoc-cli --version 0.12.0`
 2. Create an `.adventofcode.session` file in your home directory and paste your session cookie. To retrieve the session cookie, press F12 anywhere on the Advent of Code website to open your browser developer tools. Look in _Cookies_ under the _Application_ or _Storage_ tab, and copy out the `session` cookie value. [^1]
 
-Once installed, you can use the [download command](#download-input--description-for-a-day), the read command, and automatically submit solutions via the [`--submit` flag](#submitting-solutions).
+Once installed, you can use the [download command](#download-input--description-for-_a-day), the read command, and automatically submit solutions via the [`--submit` flag](#submitting-solutions).
 
 ### Automatically track ⭐️ progress in the readme
 
-This template includes [a Github action](https://github.com/k2bd/advent-readme-stars) that automatically updates the readme with your advent of code progress.
+This template includes [_a Github action](https://github.com/k2bd/advent-readme-stars) that automatically updates the readme with your advent of code progress.
 
 To enable it, complete the following steps:
 
-#### 1. Create a private leaderboard
+#### 1. Create _a private leaderboard
 
-Go to the leaderboard page of the year you want to track and click _Private Leaderboard_. If you have not created a leaderboard yet, create one by clicking _Create It_. Your leaderboard should be accessible under `https://adventofcode.com/{year}/leaderboard/private/view/{aoc_user_id}`.
+Go to the leaderboard page of the year you want to track and click _Private Leaderboard_. If you have not created _a leaderboard yet, create one by clicking _Create It_. Your leaderboard should be accessible under `https://adventofcode.com/{year}/leaderboard/private/view/{aoc_user_id}`.
 
 #### 2. Set repository secrets
 
@@ -202,7 +202,7 @@ Go to the _Variables_ tab in your repository settings and create the following v
 
 -   `AOC_ENABLED`: This variable controls whether the workflow is enabled. Set it to `true` to enable the progress tracker. After you complete AoC or no longer work on it, you can set this to `false` to disable the CI.
 
-✨ You can now run this action manually via the _Run workflow_ button on the workflow page. If you want the workflow to run automatically, uncomment the `schedule` section in the `readme-stars.yml` workflow file or add a `push` trigger.
+✨ You can now run this action manually via the _Run workflow_ button on the workflow page. If you want the workflow to run automatically, uncomment the `schedule` section in the `readme-stars.yml` workflow file or add _a `push` trigger.
 
 ### Check code formatting / clippy lints in CI
 
@@ -230,10 +230,10 @@ Do you have aoc-specific crate recommendations? [Share them!](https://github.com
 
 ## Footnotes
 
-[^1]: The session cookie might expire after a while (~1 month) which causes the downloads to fail. To fix this issue, refresh the `.adventofcode.session` file.
-[^2]: The session cookie might expire after a while (~1 month) which causes the automated workflow to fail. To fix this issue, refresh the AOC_SESSION secret.
+[^1]: The session cookie might expire after _a while (~1 month) which causes the downloads to fail. To fix this issue, refresh the `.adventofcode.session` file.
+[^2]: The session cookie might expire after _a while (~1 month) which causes the automated workflow to fail. To fix this issue, refresh the AOC_SESSION secret.
 [^3]:
-    <img src="https://user-images.githubusercontent.com/1682504/198838369-453dc22c-c645-4803-afe0-fc50d5a3f00c.png" alt="Set a breakpoint" width="450" />
+    <img src="https://user-images.githubusercontent.com/1682504/198838369-453dc22c-c645-4803-afe0-fc50d5a3f00c.png" alt="Set _a breakpoint" width="450" />
 
 [^4]:
     <img alt="Run debugger" src="https://user-images.githubusercontent.com/1682504/198838372-c89369f6-0d05-462e-a4c7-8cd97b0912e6.png" width="450" />
