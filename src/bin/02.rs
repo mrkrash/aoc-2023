@@ -91,11 +91,11 @@ pub fn part_two(input: &str) -> Option<u32> {
                             blue = _cube.first().unwrap().parse::<u32>().unwrap();
                         }
                     } else {
-                        break true;
+                        break;
                     }
                 }
             } else {
-                break true;
+                break;
             }
         }
 
