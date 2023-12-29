@@ -64,38 +64,27 @@ pub fn part_two(input: &str) -> Option<u32> {
             .split(';')
             .collect::<Vec<&str>>();
 
-        let mut _subsets = subsets.iter();
         let mut red = 0;
         let mut green = 0;
         let mut blue = 0;
-        loop {
-            if let Some(subset) = _subsets.next() {
-                let _subset = subset.split(',').collect::<Vec<&str>>();
-                let mut cubes = _subset.iter();
-                loop {
-                    if let Some(cube) = cubes.next() {
-                        let _cube = cube.trim().split(' ').collect::<Vec<&str>>();
-                        if _cube.last() == Some(&"red")
-                            && _cube.first().unwrap().parse::<u32>().unwrap() > red
-                        {
-                            red = _cube.first().unwrap().parse::<u32>().unwrap();
-                        }
-                        if _cube.last() == Some(&"green")
-                            && _cube.first().unwrap().parse::<u32>().unwrap() > green
-                        {
-                            green = _cube.first().unwrap().parse::<u32>().unwrap();
-                        }
-                        if _cube.last() == Some(&"blue")
-                            && _cube.first().unwrap().parse::<u32>().unwrap() > blue
-                        {
-                            blue = _cube.first().unwrap().parse::<u32>().unwrap();
-                        }
-                    } else {
-                        break;
-                    }
+        for subset in subsets.iter() {
+            for cube in subset.split(',').collect::<Vec<&str>>().iter() {
+                let _cube = cube.trim().split(' ').collect::<Vec<&str>>();
+                if _cube.last() == Some(&"red")
+                    && _cube.first().unwrap().parse::<u32>().unwrap() > red
+                {
+                    red = _cube.first().unwrap().parse::<u32>().unwrap();
                 }
-            } else {
-                break;
+                if _cube.last() == Some(&"green")
+                    && _cube.first().unwrap().parse::<u32>().unwrap() > green
+                {
+                    green = _cube.first().unwrap().parse::<u32>().unwrap();
+                }
+                if _cube.last() == Some(&"blue")
+                    && _cube.first().unwrap().parse::<u32>().unwrap() > blue
+                {
+                    blue = _cube.first().unwrap().parse::<u32>().unwrap();
+                }
             }
         }
 
