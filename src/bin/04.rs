@@ -30,10 +30,22 @@ pub fn part_two(input: &str) -> Option<u32> {
     let count = input.lines().count();
     for line in input.lines() {
         let card = line.split(':').collect::<Vec<&str>>();
-        let card_number: usize = card[0].split_whitespace().collect::<Vec<&str>>().last().unwrap().parse().unwrap();
+        let card_number: usize = card[0]
+            .split_whitespace()
+            .collect::<Vec<&str>>()
+            .last()
+            .unwrap()
+            .parse()
+            .unwrap();
         let numbers = card[1].split('|').collect::<Vec<&str>>();
-        let winning_numbers: Vec<usize> = numbers[0].split_whitespace().map(|x| x.parse().unwrap()).collect();
-        let my_numbers: Vec<usize> = numbers[1].split_whitespace().map(|x| x.parse().unwrap()).collect();
+        let winning_numbers: Vec<usize> = numbers[0]
+            .split_whitespace()
+            .map(|x| x.parse().unwrap())
+            .collect();
+        let my_numbers: Vec<usize> = numbers[1]
+            .split_whitespace()
+            .map(|x| x.parse().unwrap())
+            .collect();
 
         let mut exp: usize = 1;
         if cards.get(card_number).is_none() {
@@ -54,7 +66,7 @@ pub fn part_two(input: &str) -> Option<u32> {
         }
     }
 
-    Some(cards.iter().fold(0, |acc, card| acc + card))
+    Some(cards.iter().sum::<u32>())
 }
 
 #[cfg(test)]

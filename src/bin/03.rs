@@ -17,10 +17,18 @@ struct Sectors {
 
 impl Sectors {
     fn new() -> Self {
+        // sec1: None, sec2: None, sec3: None,
+        // sec4: None,             sec6: None,
+        // sec7: None, sec8: None, sec9: None,
         Sectors {
-            sec1: None, sec2: None, sec3: None,
-            sec4: None, sec6: None,
-            sec7: None, sec8: None, sec9: None,
+            sec1: None,
+            sec2: None,
+            sec3: None,
+            sec4: None,
+            sec6: None,
+            sec7: None,
+            sec8: None,
+            sec9: None,
         }
     }
 }
@@ -30,7 +38,7 @@ fn input_generator(input: &str) -> (Digits, Symbols) {
     let mut symbols = Vec::new();
     for (row, line) in input.lines().enumerate() {
         for (col, ch) in line.chars().enumerate() {
-            if ch.is_digit(10) {
+            if ch.is_ascii_digit() {
                 digits.insert((col, row), ch);
             } else if ch != '.' {
                 symbols.push((col, row, ch));

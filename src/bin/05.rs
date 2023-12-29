@@ -8,7 +8,7 @@ pub fn part_one(input: &str) -> Option<u64> {
 fn resolve_map(mut seeds: Vec<u64>, input: &str) -> Vec<u64> {
     for seed in &mut seeds {
         let mut gained = false;
-        for (_, line) in input.lines().skip(1).into_iter().enumerate() {
+        for (_, line) in input.lines().skip(1).enumerate() {
             if line.is_empty() || line.contains("map") {
                 gained = false;
                 continue;
@@ -45,7 +45,7 @@ fn parse_seed_one(input: &str) -> Vec<u64> {
         .unwrap()
         .split(':')
         .last()
-        .unwrap().trim()
+        .unwrap()
         .split_whitespace()
         .map(|number| number.parse::<u64>().unwrap())
         .collect::<Vec<u64>>()
@@ -55,27 +55,56 @@ pub fn part_two(input: &str) -> Option<u64> {
     let mut seeds = parse_seed_two(input);
     let map_relocation = remap(input);
     for maps in map_relocation {
-        let mut new_seeds:Vec<Seeds> = Vec::new();
+        let mut new_seeds: Vec<Seeds> = Vec::new();
         for relocation in maps {
             for seed_range in &mut seeds {
-                if relocation.end >= seed_range.start && relocation.end < seed_range.end { // Right
-                    new_seeds.push(Seeds {start: relocation.end +1, end: seed_range.end, relocated: false});
-                    *seed_range = Seeds {start: seed_range.start, end: relocation.end, relocated:false};
+                if relocation.end >= seed_range.start && relocation.end < seed_range.end {
+                    // Right
+                    new_seeds.push(Seeds {
+                        start: relocation.end + 1,
+                        end: seed_range.end,
+                        relocated: false,
+                    });
+                    *seed_range = Seeds {
+                        start: seed_range.start,
+                        end: relocation.end,
+                        relocated: false,
+                    };
                 }
-                if relocation.from > seed_range.start && relocation.from <= seed_range.end { // Left
-                    new_seeds.push(Seeds {start: seed_range.start, end: relocation.from -1, relocated: false});
-                    *seed_range = Seeds {start: relocation.from, end: seed_range.end, relocated: false};
+                if relocation.from > seed_range.start && relocation.from <= seed_range.end {
+                    // Left
+                    new_seeds.push(Seeds {
+                        start: seed_range.start,
+                        end: relocation.from - 1,
+                        relocated: false,
+                    });
+                    *seed_range = Seeds {
+                        start: relocation.from,
+                        end: seed_range.end,
+                        relocated: false,
+                    };
                 }
-                if seed_range.start >= relocation.from && seed_range.end <= relocation.end && !seed_range.relocated {
+                if seed_range.start >= relocation.from
+                    && seed_range.end <= relocation.end
+                    && !seed_range.relocated
+                {
                     let start = seed_range.start - relocation.from + relocation.dest;
                     let end = seed_range.end - relocation.from + relocation.dest;
 
-                    *seed_range = Seeds {start, end, relocated: true};
+                    *seed_range = Seeds {
+                        start,
+                        end,
+                        relocated: true,
+                    };
                 }
             }
         }
         for seed in &mut seeds {
-            *seed = Seeds {start: seed.start, end: seed.end, relocated: false};
+            *seed = Seeds {
+                start: seed.start,
+                end: seed.end,
+                relocated: false,
+            };
         }
         seeds = [seeds, new_seeds].concat();
     }
@@ -88,45 +117,52 @@ pub fn part_two(input: &str) -> Option<u64> {
 struct Relocation {
     from: u64,
     end: u64,
-    dest: u64
+    dest: u64,
 }
 #[derive(Clone)]
 struct Seeds {
     start: u64,
     end: u64,
-    relocated: bool
+    relocated: bool,
 }
 
 fn parse_seed_two(input: &str) -> Vec<Seeds> {
     parse_seed_one(input)
         .chunks_exact(2)
-        .into_iter()
-        .map(|x| Seeds{start: x[0], end: x[0] + x[1] -1, relocated: false})
+        .map(|x| Seeds {
+            start: x[0],
+            end: x[0] + x[1] - 1,
+            relocated: false,
+        })
         .collect()
 }
 
 fn remap(input: &str) -> Vec<Vec<Relocation>> {
-    input.split("\n\n").skip(1).collect::<Vec<&str>>().iter().map(|x| {
-        x
-            .split("\n")
-            .skip(1)
-            .collect::<Vec<&str>>()
-            .iter().filter(|x| !x.is_empty())
-            .map(|line| {
-                let _line = line
-                    .split_whitespace()
-                    .map(|num| {
-                        num.parse::<u64>().unwrap()
-                    })
-                    .collect::<Vec<_>>();
-                Relocation {
-                    from: _line[1],
-                    dest: _line[0],
-                    end: _line[1] + _line[2] -1
-                }
-            })
-            .collect::<Vec<Relocation>>()
-    }).collect()
+    input
+        .split("\n\n")
+        .skip(1)
+        .collect::<Vec<&str>>()
+        .iter()
+        .map(|x| {
+            x.split('\n')
+                .skip(1)
+                .collect::<Vec<&str>>()
+                .iter()
+                .filter(|x| !x.is_empty())
+                .map(|line| {
+                    let _line = line
+                        .split_whitespace()
+                        .map(|num| num.parse::<u64>().unwrap())
+                        .collect::<Vec<_>>();
+                    Relocation {
+                        from: _line[1],
+                        dest: _line[0],
+                        end: _line[1] + _line[2] - 1,
+                    }
+                })
+                .collect::<Vec<Relocation>>()
+        })
+        .collect()
 }
 
 #[cfg(test)]

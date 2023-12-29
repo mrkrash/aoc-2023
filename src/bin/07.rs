@@ -2,12 +2,15 @@ use std::collections::HashMap;
 advent_of_code::solution!(7);
 
 pub fn part_one(input: &str) -> Option<u32> {
-    let mut hands:Vec<Hand> = Vec::new();
+    let mut hands: Vec<Hand> = Vec::new();
     for line in input.lines() {
         let _line = line.split_whitespace().collect::<Vec<&str>>();
         let _cards = _line.first().unwrap();
         let bid: u32 = _line.last().unwrap().parse().unwrap();
-        let _cards: Vec<Card> = _cards.chars().map(|c| Card::from_char(c).unwrap()).collect();
+        let _cards: Vec<Card> = _cards
+            .chars()
+            .map(|c| Card::from_char(c).unwrap())
+            .collect();
         hands.push(Hand::from_cards(_cards, bid));
     }
     hands.sort_by(|a, b| {
@@ -16,15 +19,40 @@ pub fn part_one(input: &str) -> Option<u32> {
                 if a.cards.get(1) == b.cards.get(1) {
                     if a.cards.get(2) == b.cards.get(2) {
                         if a.cards.get(3) == b.cards.get(3) {
-                            return a.cards.get(4).unwrap().partial_cmp(b.cards.get(4).unwrap()).unwrap();
+                            return a
+                                .cards
+                                .get(4)
+                                .unwrap()
+                                .partial_cmp(b.cards.get(4).unwrap())
+                                .unwrap();
                         }
-                        return a.cards.get(3).unwrap().partial_cmp(b.cards.get(3).unwrap()).unwrap();
+                        return a
+                            .cards
+                            .get(3)
+                            .unwrap()
+                            .partial_cmp(b.cards.get(3).unwrap())
+                            .unwrap();
                     }
-                    return a.cards.get(2).unwrap().partial_cmp(b.cards.get(2).unwrap()).unwrap();
+                    return a
+                        .cards
+                        .get(2)
+                        .unwrap()
+                        .partial_cmp(b.cards.get(2).unwrap())
+                        .unwrap();
                 }
-                return a.cards.get(1).unwrap().partial_cmp(b.cards.get(1).unwrap()).unwrap();
+                return a
+                    .cards
+                    .get(1)
+                    .unwrap()
+                    .partial_cmp(b.cards.get(1).unwrap())
+                    .unwrap();
             }
-            return a.cards.get(0).unwrap().partial_cmp(b.cards.get(0).unwrap()).unwrap();
+            return a
+                .cards
+                .get(0)
+                .unwrap()
+                .partial_cmp(b.cards.get(0).unwrap())
+                .unwrap();
         }
         b.rank.cmp(&a.rank)
     });
@@ -37,12 +65,15 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let mut hands:Vec<JokerHand> = Vec::new();
+    let mut hands: Vec<JokerHand> = Vec::new();
     for line in input.lines() {
         let _line = line.split_whitespace().collect::<Vec<&str>>();
         let _cards = _line.first().unwrap();
         let bid: u32 = _line.last().unwrap().parse().unwrap();
-        let _cards: Vec<JokerCard> = _cards.chars().map(|c| JokerCard::from_char(c).unwrap()).collect();
+        let _cards: Vec<JokerCard> = _cards
+            .chars()
+            .map(|c| JokerCard::from_char(c).unwrap())
+            .collect();
         hands.push(JokerHand::from_cards(_cards, bid));
     }
     hands.sort_by(|a, b| {
@@ -51,15 +82,40 @@ pub fn part_two(input: &str) -> Option<u32> {
                 if a.cards.get(1) == b.cards.get(1) {
                     if a.cards.get(2) == b.cards.get(2) {
                         if a.cards.get(3) == b.cards.get(3) {
-                            return a.cards.get(4).unwrap().partial_cmp(b.cards.get(4).unwrap()).unwrap();
+                            return a
+                                .cards
+                                .get(4)
+                                .unwrap()
+                                .partial_cmp(b.cards.get(4).unwrap())
+                                .unwrap();
                         }
-                        return a.cards.get(3).unwrap().partial_cmp(b.cards.get(3).unwrap()).unwrap();
+                        return a
+                            .cards
+                            .get(3)
+                            .unwrap()
+                            .partial_cmp(b.cards.get(3).unwrap())
+                            .unwrap();
                     }
-                    return a.cards.get(2).unwrap().partial_cmp(b.cards.get(2).unwrap()).unwrap();
+                    return a
+                        .cards
+                        .get(2)
+                        .unwrap()
+                        .partial_cmp(b.cards.get(2).unwrap())
+                        .unwrap();
                 }
-                return a.cards.get(1).unwrap().partial_cmp(b.cards.get(1).unwrap()).unwrap();
+                return a
+                    .cards
+                    .get(1)
+                    .unwrap()
+                    .partial_cmp(b.cards.get(1).unwrap())
+                    .unwrap();
             }
-            return a.cards.get(0).unwrap().partial_cmp(b.cards.get(0).unwrap()).unwrap();
+            return a
+                .cards
+                .get(0)
+                .unwrap()
+                .partial_cmp(b.cards.get(0).unwrap())
+                .unwrap();
         }
         b.rank.cmp(&a.rank)
     });
@@ -73,7 +129,7 @@ pub fn part_two(input: &str) -> Option<u32> {
 
 #[derive(Eq, Hash, PartialEq, PartialOrd, Debug, Clone, Copy)]
 struct Card {
-    value: u8
+    value: u8,
 }
 impl Card {
     fn from_char(c: char) -> Result<Self, &'static str> {
@@ -90,7 +146,7 @@ impl Card {
 }
 #[derive(Eq, Hash, PartialEq, PartialOrd, Debug, Clone, Copy)]
 struct JokerCard {
-    value: u8
+    value: u8,
 }
 impl crate::JokerCard {
     fn from_char(c: char) -> Result<Self, &'static str> {
@@ -108,18 +164,19 @@ impl crate::JokerCard {
 struct Hand {
     cards: [Card; 5],
     rank: u32,
-    bid: u32
+    bid: u32,
 }
 impl Hand {
     fn from_cards(cards: Vec<Card>, bid: u32) -> Hand {
-        let mut same_card_counts: Vec<u8> = cards.clone()
+        let mut same_card_counts: Vec<u8> = cards
+            .clone()
             .into_iter()
             .fold(HashMap::<Card, u8>::new(), |mut acc, c| {
                 acc.entry(c).and_modify(|v| *v += 1).or_insert(1);
                 acc
             })
             .values()
-            .map(|v| *v)
+            .copied()
             .collect::<Vec<_>>();
         same_card_counts.sort();
         same_card_counts.reverse();
@@ -136,25 +193,26 @@ impl Hand {
                     _ => 6,
                 },
             },
-            bid
+            bid,
         }
     }
 }
 struct JokerHand {
     cards: [JokerCard; 5],
     rank: u32,
-    bid: u32
+    bid: u32,
 }
 impl JokerHand {
     fn from_cards(cards: Vec<JokerCard>, bid: u32) -> JokerHand {
-        let mut same_card_counts: Vec<u8> = cards.clone()
+        let mut same_card_counts: Vec<u8> = cards
+            .clone()
             .into_iter()
             .fold(HashMap::<JokerCard, u8>::new(), |mut acc, c| {
                 acc.entry(c).and_modify(|v| *v += 1).or_insert(1);
                 acc
             })
             .values()
-            .map(|v| *v)
+            .copied()
             .collect::<Vec<_>>();
         same_card_counts.sort();
         same_card_counts.reverse();
@@ -180,25 +238,25 @@ impl JokerHand {
                     (2, 2) => 2,
                     (2, _) => 3,
                     (1, _) => 5,
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 },
                 // 2 joker, 3 other
                 2 => match (same_card_counts[0], same_card_counts[1]) {
                     (3, _) => 0,
                     (2, 2) => 1,
                     (2, _) => 3,
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 },
                 // 3 joker, 2 other
                 3 => match same_card_counts.len() {
                     2 => 0,
                     3 => 1,
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 },
                 4 => 0,
-                _ => unreachable!()
+                _ => unreachable!(),
             },
-            bid
+            bid,
         }
     }
 }

@@ -4,9 +4,16 @@ pub fn part_one(input: &str) -> Option<u32> {
     let red = 12;
     let green = 13;
     let blue = 14;
-    Some(input.lines().fold(0, |acc: u32, line: &str|{
-        let _game = line.split(':').collect::<Vec<&str>>()[0].split(' ').last().unwrap().parse::<u32>().unwrap();
-        let subsets = line.split(':').collect::<Vec<&str>>()[1].split(';').collect::<Vec<&str>>();
+    Some(input.lines().fold(0, |acc: u32, line: &str| {
+        let _game = line.split(':').collect::<Vec<&str>>()[0]
+            .split(' ')
+            .last()
+            .unwrap()
+            .parse::<u32>()
+            .unwrap();
+        let subsets = line.split(':').collect::<Vec<&str>>()[1]
+            .split(';')
+            .collect::<Vec<&str>>();
 
         let mut _subsets = subsets.iter();
         let valid = loop {
@@ -16,16 +23,24 @@ pub fn part_one(input: &str) -> Option<u32> {
                 let _valid = loop {
                     if let Some(cube) = cubes.next() {
                         let _cube = cube.trim().split(' ').collect::<Vec<&str>>();
-                        if _cube.last() == Some(&"red") && _cube.first().unwrap().parse::<u32>().unwrap() > red {
+                        if _cube.last() == Some(&"red")
+                            && _cube.first().unwrap().parse::<u32>().unwrap() > red
+                        {
                             break false;
                         }
-                        if _cube.last() == Some(&"green") && _cube.first().unwrap().parse::<u32>().unwrap() > green {
+                        if _cube.last() == Some(&"green")
+                            && _cube.first().unwrap().parse::<u32>().unwrap() > green
+                        {
                             break false;
                         }
-                        if _cube.last() == Some(&"blue") && _cube.first().unwrap().parse::<u32>().unwrap() > blue {
+                        if _cube.last() == Some(&"blue")
+                            && _cube.first().unwrap().parse::<u32>().unwrap() > blue
+                        {
                             break false;
                         }
-                    } else { break true }
+                    } else {
+                        break true;
+                    }
                 };
                 if !_valid {
                     break _valid;
@@ -44,8 +59,10 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    Some(input.lines().fold(0, |acc: u32, line: &str|{
-        let subsets = line.split(':').collect::<Vec<&str>>()[1].split(';').collect::<Vec<&str>>();
+    Some(input.lines().fold(0, |acc: u32, line: &str| {
+        let subsets = line.split(':').collect::<Vec<&str>>()[1]
+            .split(';')
+            .collect::<Vec<&str>>();
 
         let mut _subsets = subsets.iter();
         let mut red = 0;
@@ -58,21 +75,29 @@ pub fn part_two(input: &str) -> Option<u32> {
                 loop {
                     if let Some(cube) = cubes.next() {
                         let _cube = cube.trim().split(' ').collect::<Vec<&str>>();
-                        if _cube.last() == Some(&"red") && _cube.first().unwrap().parse::<u32>().unwrap() > red {
+                        if _cube.last() == Some(&"red")
+                            && _cube.first().unwrap().parse::<u32>().unwrap() > red
+                        {
                             red = _cube.first().unwrap().parse::<u32>().unwrap();
                         }
-                        if _cube.last() == Some(&"green") && _cube.first().unwrap().parse::<u32>().unwrap() > green {
+                        if _cube.last() == Some(&"green")
+                            && _cube.first().unwrap().parse::<u32>().unwrap() > green
+                        {
                             green = _cube.first().unwrap().parse::<u32>().unwrap();
                         }
-                        if _cube.last() == Some(&"blue") && _cube.first().unwrap().parse::<u32>().unwrap() > blue {
+                        if _cube.last() == Some(&"blue")
+                            && _cube.first().unwrap().parse::<u32>().unwrap() > blue
+                        {
                             blue = _cube.first().unwrap().parse::<u32>().unwrap();
                         }
-                    } else { break true }
-                };
+                    } else {
+                        break true;
+                    }
+                }
             } else {
                 break true;
             }
-        };
+        }
 
         acc + red * green * blue
     }))
